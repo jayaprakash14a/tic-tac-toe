@@ -1,5 +1,6 @@
 import { useState } from "react";
 import calculateWinner from "../Utils/calculateWinner";
+import type { winner } from "../models";
 
 
 const useGameEngine = () => {
@@ -7,12 +8,17 @@ const useGameEngine = () => {
     const [squares, setSquares] = useState<string[]>(Array(9).fill(null));
     const [isXTurn, setIsXTurn] = useState<boolean>(true);
 
-    const winner = calculateWinner(squares);
+    const winner: winner | null = calculateWinner(squares);
+    
 
     const onSquareClick = (idx: number) => {
 
-        if (squares[idx] || winner) {
+        if (squares[idx]) {
             return;
+        }
+
+        if (winner) {
+           return;
         }
 
         const newSquares: string[] = [...squares];
